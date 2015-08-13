@@ -1,8 +1,10 @@
 *.class
 
-#intellij specific folders
+#intellij specific folders/files
 .idea/
 out/
+*.iml
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -13,4 +15,3 @@ out/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-adamant-spork-generator.iml
