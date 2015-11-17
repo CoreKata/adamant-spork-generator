@@ -1,5 +1,7 @@
-import org.easybatch.core.api.Record;
-import org.easybatch.core.api.RecordMapper;
+import org.easybatch.core.record.GenericRecord;
+import org.easybatch.core.record.Record;
+import org.easybatch.core.mapper.RecordMapper;
+import org.easybatch.core.record.StringRecord;
 
 import java.io.File;
 import java.util.Arrays;
@@ -8,12 +10,12 @@ import java.util.List;
 /**
  * Created by rdarge on 8/11/2015.
  */
-public class FileToStringListMapper implements RecordMapper<List<String>> {
+public class FileToStringListMapper implements RecordMapper<StringRecord, Record<List<String>>> {
 
-   public List<String> mapRecord(Record record) {
-      String payload = (String) record.getPayload();
+   public Record<List<String>> processRecord(StringRecord record) {
+      String payload = record.getPayload();
       payload = payload.replaceAll(" [ ]*", " ");
-      return Arrays.asList(payload.split(" "));
+      return new GenericRecord<>(record.getHeader(), Arrays.asList(payload.split(" ")));
    }
 
 }

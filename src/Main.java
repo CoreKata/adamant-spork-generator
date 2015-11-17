@@ -1,5 +1,7 @@
-import org.easybatch.core.api.Report;
-import org.easybatch.core.impl.EngineBuilder;
+import org.easybatch.core.job.Job;
+import org.easybatch.core.job.JobExecutor;
+import org.easybatch.core.job.JobReport;
+import org.easybatch.core.job.JobBuilder;
 import org.easybatch.flatfile.FlatFileRecordReader;
 //import java.io.File;
 import java.io.File;
@@ -16,13 +18,13 @@ public class Main {
     public static void main(String[] args) {
         try {
         File inputFile = new File("res/lastQuestion.txt");
-            Report report = EngineBuilder.aNewEngine()
+            Job job = JobBuilder.aNewJob()
                     .reader(new FlatFileRecordReader(inputFile))
                     .mapper(new FileToStringListMapper())
                     .processor(new ComputeDictionaryProcess())
-                    .build().call();
-
-            Map<WordPair, List<String>> dictionary = (Map<WordPair, List<String>>) report.getBatchResult();
+                    .build();
+            JobReport report = JobExecutor.execute(job);
+            Map<WordPair, List<String>> dictionary = (Map<WordPair, List<String>>) report.getResult();
             String newStory = generateNewBook(dictionary);
             System.out.println(newStory);
             System.out.println("Thanks for playing!");
